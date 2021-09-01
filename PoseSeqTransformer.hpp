@@ -37,16 +37,4 @@ private:
     std::string header_quat_w_str_ = std::string("quat_w");
 };
 
-void CsvWritePose(std::ofstream &ostream, const PoseData &data){
-    static bool header_written = false;
-
-    if(header_written == false){
-        ostream << "seq, position_x, position_y, position_z, quat_x, quat_y, quat_z, quat_w" << std::endl;
-        header_written = true;
-    }
-
-    ostream << data.seq << "," << data.position_x << "," << data.position_y << "," << data.position_z 
-                        << "," << data.quat_x << "," << data.quat_y << "," << data.quat_z << "," << data.quat_w << std::endl;
-}
-
 }

@@ -14,13 +14,17 @@ int main(int argc, char const *argv[]){
     std::string csv_path(argv[1]);
     PoseSeqTransFormer transformer(csv_path);
 
-    PoseSeqTransFormer::PosesVecPtr loaded_ptr = transformer.LoadPoseInMemory();
-    PoseSeqTransFormer::PosesVecPtr transed_ptr = PoseSeqTransFormer::TransformRelativeTo(loaded_ptr, 0);
+    PoseSeqTransFormer::PosesVecPtr poses_ptr = transformer.GetIsometry3dPoseVec();
+    PoseSeqTransFormer::PosesVecPtr transed_ptr = PoseSeqTransFormer::TransformRelativeTo(poses_ptr, 0);
 
-    for(size_t i = 0; i < transed_ptr->size(); ++i){
-        Eigen::Isometry3d iso = transed_ptr->at(i);
-        std::cout << iso.matrix() << std::endl;
-    }
+    // for(size_t i = 0; i < transed_ptr->size(); ++i){
+    //     Eigen::Isometry3d iso = transed_ptr->at(i);
+    //     std::cout << iso.matrix() << std::endl;
+    // }
+
+    std::ofstream out("transed.txt");
+    PoseSeqTransFormer::OutPutKittiFormat(transed_ptr, out);
+    out.close();
 
     return EXIT_SUCCESS;
 }
